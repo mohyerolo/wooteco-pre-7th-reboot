@@ -11,7 +11,7 @@ public class InputService {
     public Input createInput(final String input) {
         validateBlank(input);
         String delimiters = makeDelimiterRegExp(input);
-        Numbers numbers = new Numbers(makeNumbers(input));
+        Numbers numbers = new Numbers(makeNumbers(input, delimiters));
         return new Input(delimiters, numbers);
     }
 
@@ -25,7 +25,7 @@ public class InputService {
         return SplitUtil.splitDelimiter(input);
     }
 
-    private String makeNumbers(final String input) {
-        return SplitUtil.getNumbers(input);
+    private String[] makeNumbers(final String input, final String delimiters) {
+        return SplitUtil.splitNumbers(input, delimiters);
     }
 }

@@ -4,6 +4,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.wooteco.pre.calculator.constant.SplitMessage.DEFAULT_DELIMITER;
@@ -48,11 +50,12 @@ class SplitUtilTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {
-            "1,2,3#1,2,3", "1:2,3#1:2,3", "//a\\n1a2,3#1a2,3"
-    }, delimiter = '#')
-    void 커스텀구분자_제외_뒤의_숫자들만(final String input, final String result) {
-        assertThat(SplitUtil.getNumbers(input))
-                .isEqualTo(result);
+    @ValueSource(strings = {
+            "1,2,3", "1:2,3", "//a\\n1a2,3"
+    })
+    void 커스텀구분자_제외_뒤의_숫자들만(final String input) {
+        String delimiters = SplitUtil.splitDelimiter(input);
+        assertThat(SplitUtil.splitNumbers(input, delimiters))
+                .containsExactly("1", "2", "3");
     }
 }

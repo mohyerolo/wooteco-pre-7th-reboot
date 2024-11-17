@@ -10,13 +10,9 @@ public class SplitUtil {
         return String.format(DELIMITER_REG_EXP, str);
     }
 
-    public static String getNumbers(final String input) {
-        String str = input;
-        while (str.startsWith(CUSTOM_START)) {
-            int endIndex = str.indexOf(CUSTOM_END) + CUSTOM_END.length();
-            str = str.substring(endIndex);
-        }
-        return str;
+    public static String[] splitNumbers(final String input, final String delimiter) {
+        String number = getNumbers(input);
+        return number.split(delimiter);
     }
 
     private static String extractCustomDelimiters(final String input) {
@@ -53,4 +49,14 @@ public class SplitUtil {
     private static String checkMetaCharacters(final String splitter) {
         return splitter.replaceAll("([\\^$.?*+()\\[\\]{}|\\\\-])", "\\\\$1");
     }
+
+    private static String getNumbers(final String input) {
+        String str = input;
+        while (str.startsWith(CUSTOM_START)) {
+            int endIndex = str.indexOf(CUSTOM_END) + CUSTOM_END.length();
+            str = str.substring(endIndex);
+        }
+        return str;
+    }
+
 }
