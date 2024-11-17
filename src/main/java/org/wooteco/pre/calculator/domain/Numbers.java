@@ -5,6 +5,7 @@ import org.wooteco.pre.calculator.exception.CustomIllegalException;
 import java.util.Arrays;
 
 public class Numbers {
+    private static final String NON_POSITIVE_ERROR = "양수가 아닌 문자가 있습니다. ";
     private final String[] numbers;
 
     public Numbers(final String[] numbers) {
@@ -25,13 +26,13 @@ public class Numbers {
         try {
             return Integer.parseInt(num);
         } catch (NumberFormatException e) {
-            throw new CustomIllegalException("숫자가 아닌 문자가 들어있습니다.");
+            throw new CustomIllegalException(NON_POSITIVE_ERROR + num);
         }
     }
 
     private void checkPositive(int num) {
         if (num <= 0) {
-            throw new CustomIllegalException("양수가 아닌 숫자가 있습니다.");
+            throw new CustomIllegalException(NON_POSITIVE_ERROR + num);
         }
     }
 }
