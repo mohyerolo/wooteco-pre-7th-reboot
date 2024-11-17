@@ -1,6 +1,5 @@
 package org.wooteco.pre.calculator.service;
 
-import org.wooteco.pre.calculator.domain.Input;
 import org.wooteco.pre.calculator.domain.Numbers;
 import org.wooteco.pre.calculator.exception.CustomIllegalException;
 import org.wooteco.pre.calculator.util.SplitUtil;
@@ -8,11 +7,10 @@ import org.wooteco.pre.calculator.util.SplitUtil;
 public class InputService {
     private static final String BLANK_ERROR = "입력 값은 비어있으면 안됩니다";
 
-    public Input createInput(final String input) {
+    public Numbers createInput(final String input) {
         validateBlank(input);
         String delimiters = makeDelimiterRegExp(input);
-        Numbers numbers = new Numbers(makeNumbers(input, delimiters));
-        return new Input(delimiters, numbers);
+        return new Numbers(makeNumbers(input, delimiters));
     }
 
     private void validateBlank(final String input) {
