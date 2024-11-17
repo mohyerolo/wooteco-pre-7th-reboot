@@ -6,8 +6,7 @@ import static org.wooteco.pre.calculator.constant.SplitMessage.*;
 
 public class SplitUtil {
     public static String splitDelimiter(final String input) {
-        String str = extractCustomDelimiters(input);
-        return String.format(DELIMITER_REG_EXP, str);
+        return extractCustomDelimiters(input);
     }
 
     public static String[] splitNumbers(final String input, final String delimiter) {

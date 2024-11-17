@@ -1,5 +1,6 @@
 package org.wooteco.pre.calculator.util;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -7,7 +8,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.wooteco.pre.calculator.constant.SplitMessage.DEFAULT_DELIMITER;
-import static org.wooteco.pre.calculator.constant.SplitMessage.DELIMITER_REG_EXP;
 
 class SplitUtilTest {
 
@@ -35,12 +35,12 @@ class SplitUtilTest {
     })
     void 기본_구분자만_있음(final String input) {
         assertThat(SplitUtil.splitDelimiter(input))
-                .isEqualTo(String.format(DELIMITER_REG_EXP, DEFAULT_DELIMITER));
+                .isEqualTo(DEFAULT_DELIMITER);
     }
 
     @ParameterizedTest
     @CsvSource(value = {
-            "///\\n1,2,3#[,|:|/]", "//^\\n1,2,3#[,|:|\\^]", "//a\\n1,2,3#[,|:|a]", "//a\\n//b\\n1a2b3#[,|:|a|b]"
+            "///\\n1,2,3#,|:|/", "//^\\n1,2,3#,|:|\\^", "//a\\n1,2,3#,|:|a", "//a\\n//b\\n1a2b3#,|:|a|b"
     }, delimiter = '#')
     void 커스텀_있음(final String input, final String result) {
         assertThat(SplitUtil.splitDelimiter(input))
@@ -55,5 +55,14 @@ class SplitUtilTest {
         String delimiters = SplitUtil.splitDelimiter(input);
         assertThat(SplitUtil.splitNumbers(input, delimiters))
                 .containsExactly("1", "2", "3");
+    }
+
+    @Test
+    void 커스텀구분자_하나에_여러문자() {
+        String input = "//ai\\n1:2a,3";
+        String delimiters = SplitUtil.splitDelimiter(input);
+        assertThat(delimiters).contains("ai");
+        assertThat(SplitUtil.splitNumbers(input, delimiters))
+                .containsExactly("1", "2a", "3");
     }
 }
