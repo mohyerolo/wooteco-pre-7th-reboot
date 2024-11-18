@@ -21,13 +21,14 @@ public class RacingController {
     }
 
     public void start() {
-        List<Car> cars = gameService.makeCars(inputView.read());
-        int count = InputParser.parseCount(inputView.read());
+        List<Car> cars = gameService.makeCars(inputView.readCarNames());
+        int count = InputParser.parseCount(inputView.readTryCount());
         startGameAsCount(cars, count);
         presentWinner(cars);
     }
 
     private void startGameAsCount(final List<Car> cars, final int count) {
+        outputView.printExecuteMessage();
         for (int i = 0; i < count; i++) {
             gameService.playGame(cars);
             outputView.printProgress(parseDto(cars));
