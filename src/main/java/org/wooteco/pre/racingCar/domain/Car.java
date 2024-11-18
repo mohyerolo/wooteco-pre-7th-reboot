@@ -17,6 +17,10 @@ public class Car {
         }
     }
 
+    public boolean isWinner(int highestMoveCnt) {
+        return moveCnt == highestMoveCnt;
+    }
+
     public String getName() {
         return name;
     }

@@ -1,6 +1,6 @@
 package org.wooteco.pre.racingCar.controller;
 
-import org.wooteco.pre.racingCar.domain.Car;
+import org.wooteco.pre.racingCar.domain.Cars;
 import org.wooteco.pre.racingCar.dto.CarDto;
 import org.wooteco.pre.racingCar.service.GameService;
 import org.wooteco.pre.racingCar.util.InputParser;
@@ -21,13 +21,13 @@ public class RacingController {
     }
 
     public void start() {
-        List<Car> cars = gameService.makeCars(inputView.readCarNames());
+        Cars cars = Cars.from(inputView.readCarNames());
         int count = InputParser.parseCount(inputView.readTryCount());
         startGameAsCount(cars, count);
         presentWinner(cars);
     }
 
-    private void startGameAsCount(final List<Car> cars, final int count) {
+    private void startGameAsCount(final Cars cars, final int count) {
         outputView.printExecuteMessage();
         for (int i = 0; i < count; i++) {
             gameService.playGame(cars);
@@ -35,13 +35,13 @@ public class RacingController {
         }
     }
 
-    private List<CarDto> parseDto(final List<Car> cars) {
-        return cars.stream()
+    private List<CarDto> parseDto(final Cars cars) {
+        return cars.getCars().stream()
                 .map(CarDto::from)
                 .toList();
     }
 
-    private void presentWinner(final List<Car> cars) {
+    private void presentWinner(final Cars cars) {
         List<String> winners = gameService.findWinners(cars);
         outputView.printWinners(winners);
     }
