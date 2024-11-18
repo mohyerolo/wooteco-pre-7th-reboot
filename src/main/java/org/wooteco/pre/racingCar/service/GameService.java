@@ -32,8 +32,23 @@ public class GameService {
         }
     }
 
+    public List<String> findWinners(final List<Car> cars) {
+        int highestMoveCnt = getWinningMoveCnt(cars);
+        return cars.stream()
+                .filter(car -> car.getMoveCnt() == highestMoveCnt)
+                .map(Car::getName)
+                .toList();
+    }
+
     private void validateCar(final String[] splitCarNames) {
         CarValidator.validateBlank(splitCarNames);
         CarValidator.validateDuplicate(splitCarNames);
+    }
+
+    private int getWinningMoveCnt(final List<Car> cars) {
+        return cars.stream()
+                .mapToInt(Car::getMoveCnt)
+                .max()
+                .orElse(0);
     }
 }

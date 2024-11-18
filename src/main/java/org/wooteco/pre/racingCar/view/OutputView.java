@@ -6,6 +6,7 @@ import java.util.List;
 
 public class OutputView {
     private static final String DIVIDE_OBJECT = " : ";
+    private static final String WINNER_DELIMITER = ",";
 
     public void printProgress(final List<CarDto> cars) {
         StringBuilder sb = new StringBuilder();
@@ -16,6 +17,10 @@ public class OutputView {
                     .append('\n');
         }
         System.out.println(sb);
+    }
+
+    public void printWinners(final List<String> winners) {
+        System.out.println(String.join(WINNER_DELIMITER, winners));
     }
 
 }

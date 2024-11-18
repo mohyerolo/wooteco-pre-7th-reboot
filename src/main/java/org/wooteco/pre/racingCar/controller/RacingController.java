@@ -24,6 +24,7 @@ public class RacingController {
         List<Car> cars = gameService.makeCars(inputView.read());
         int count = InputParser.parseCount(inputView.read());
         startGameAsCount(cars, count);
+        presentWinner(cars);
     }
 
     private void startGameAsCount(final List<Car> cars, final int count) {
@@ -39,4 +40,8 @@ public class RacingController {
                 .toList();
     }
 
+    private void presentWinner(final List<Car> cars) {
+        List<String> winners = gameService.findWinners(cars);
+        outputView.printWinners(winners);
+    }
 }
