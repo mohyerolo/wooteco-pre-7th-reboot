@@ -11,6 +11,12 @@ public class GameService {
     private static final int MIN_NUM = 0;
     private static final int MAX_NUM = 9;
 
+    private final MoveGenerator moveGenerator;
+
+    public GameService(final MoveGenerator moveGenerator) {
+        this.moveGenerator = moveGenerator;
+    }
+
     public List<Car> makeCars(final String carNames) {
         String[] splitCarNames = InputParser.splitCarNames(carNames);
         validateCar(splitCarNames);
@@ -19,7 +25,7 @@ public class GameService {
                 .toList();
     }
 
-    public void playGame(final List<Car> cars, final MoveGenerator moveGenerator) {
+    public void playGame(final List<Car> cars) {
         for (Car car : cars) {
             int randomNum = moveGenerator.generateNumber(MIN_NUM, MAX_NUM);
             car.moveOrNot(randomNum);
