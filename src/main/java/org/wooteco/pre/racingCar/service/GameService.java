@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameService {
+    private static final int MIN_NUM = 0;
+    private static final int MAX_NUM = 9;
 
     public List<Car> makeCars(final String carNames) {
         String[] splitCarNames = InputParser.splitCarNames(carNames);
@@ -17,9 +19,15 @@ public class GameService {
                 .toList();
     }
 
+    public void playGame(final List<Car> cars, final MoveGenerator moveGenerator) {
+        for (Car car : cars) {
+            int randomNum = moveGenerator.generateNumber(MIN_NUM, MAX_NUM);
+            car.moveOrNot(randomNum);
+        }
+    }
+
     private void validateCar(final String[] splitCarNames) {
         CarValidator.validateBlank(splitCarNames);
         CarValidator.validateDuplicate(splitCarNames);
     }
-
 }
