@@ -19,6 +19,6 @@ public class LottoTicketsFactory {
     }
 
     private static Lotto issueLotto(final LottoGenerator lottoGenerator) {
-        return Lotto.from(lottoGenerator);
+        return Lotto.generatorFrom(lottoGenerator);
     }
 }

@@ -1,5 +1,6 @@
 package org.wooteco.pre.lotto.controller;
 
+import org.wooteco.pre.lotto.domain.Lotto;
 import org.wooteco.pre.lotto.domain.LottoTickets;
 import org.wooteco.pre.lotto.dto.LottoDto;
 import org.wooteco.pre.lotto.service.LottoGenerator;
@@ -23,6 +24,7 @@ public class LottoController {
     public void start() {
         LottoTickets lottoTickets = issueLottoTickets();
         outputView.printLottoTickets(makeDto(lottoTickets));
+        Lotto winningLotto = getWinningLotto();
     }
 
     private LottoTickets issueLottoTickets() {
@@ -36,6 +38,13 @@ public class LottoController {
         return lottoTickets.getLottos().stream()
                 .map(LottoDto::new)
                 .toList();
+    }
+
+    private Lotto getWinningLotto() {
+        return executeWithRetry(() -> {
+            String numbers = inputView.readWinLottoNumbers();
+            return Lotto.numbersFrom(numbers);
+        });
     }
 
     private <T> T executeWithRetry(Supplier<T> action) {
