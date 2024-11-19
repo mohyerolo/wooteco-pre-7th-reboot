@@ -38,6 +38,12 @@ public class LottoValidator {
         }
     }
 
+    public static void validateRange(final int number) {
+        if (isRangeUnable(number)) {
+            throw new CustomIllegalException(String.format(RANGE_ERROR_TEMPLATE, Lotto.LOTTO_MIN, Lotto.LOTTO_MAX));
+        }
+    }
+
     public static void validateNonDuplicate(final List<Integer> numbers) {
         if (numbers.size() != getDistinctNumSize(numbers)) {
             throw new CustomIllegalException(NUM_DUPLICATED_ERROR);

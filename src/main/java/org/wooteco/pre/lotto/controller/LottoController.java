@@ -2,9 +2,11 @@ package org.wooteco.pre.lotto.controller;
 
 import org.wooteco.pre.lotto.domain.Lotto;
 import org.wooteco.pre.lotto.domain.LottoTickets;
+import org.wooteco.pre.lotto.domain.WinningLottos;
 import org.wooteco.pre.lotto.dto.LottoDto;
 import org.wooteco.pre.lotto.service.RandomLottoGenerator;
 import org.wooteco.pre.lotto.service.StringLottoGenerator;
+import org.wooteco.pre.lotto.validator.LottoValidator;
 import org.wooteco.pre.lotto.view.InputView;
 import org.wooteco.pre.lotto.view.OutputView;
 
@@ -23,7 +25,9 @@ public class LottoController {
     public void start() {
         LottoTickets lottoTickets = issueLottoTickets();
         outputView.printLottoTickets(makeDto(lottoTickets));
-        Lotto winningLotto = getWinningLotto();
+
+        WinningLottos winningLottos = receiveWinningLottos();
+        
     }
 
     private LottoTickets issueLottoTickets() {
@@ -39,10 +43,24 @@ public class LottoController {
                 .toList();
     }
 
+    private WinningLottos receiveWinningLottos() {
+        Lotto winningLotto = getWinningLotto();
+        int bonusNum = getBonusNum();
+        return new WinningLottos(winningLotto, bonusNum);
+    }
+
     private Lotto getWinningLotto() {
         return executeWithRetry(() -> {
             String numbers = inputView.readWinLottoNumbers();
             return Lotto.of(new StringLottoGenerator(), numbers);
+        });
+    }
+
+    private int getBonusNum() {
+        return executeWithRetry(() -> {
+            int bonusNumber = inputView.readBonusNumber();
+            LottoValidator.validateRange(bonusNumber);
+            return bonusNumber;
         });
     }
 

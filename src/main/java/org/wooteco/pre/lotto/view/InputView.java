@@ -8,7 +8,7 @@ public class InputView {
         System.out.println(DisplayMessage.INPUT_MONEY.getMessage());
         String amount = Console.readLine();
         ViewValidator.validateBlank(amount);
-        ViewValidator.validateNumError(amount);
+        ViewValidator.validateNum(amount);
         return Integer.parseInt(amount);
     }
 
@@ -17,5 +17,13 @@ public class InputView {
         String numbers = Console.readLine();
         ViewValidator.validateBlank(numbers);
         return numbers;
+    }
+
+    public int readBonusNumber() {
+        System.out.println(DisplayMessage.INPUT_BONUS_NUMBERS.getMessage());
+        String bonus = Console.readLine();
+        ViewValidator.validateBlank(bonus);
+        ViewValidator.validateNum(bonus);
+        return Integer.parseInt(bonus);
     }
 }
