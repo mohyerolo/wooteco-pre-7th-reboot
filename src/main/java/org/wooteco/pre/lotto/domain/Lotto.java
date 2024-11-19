@@ -16,11 +16,11 @@ public class Lotto {
     }
 
     public static Lotto generatorFrom(final LottoGenerator lottoGenerator) {
-        return new Lotto(LottoFactory.createLotto(lottoGenerator, LOTTO_MIN, LOTTO_MAX, LOTTO_COUNT));
+        return new Lotto(lottoGenerator.generateLottoNumbers(LOTTO_MIN, LOTTO_MAX, LOTTO_COUNT));
     }
 
-    public static Lotto numbersFrom(final String numbers) {
-        return new Lotto(LottoFactory.createLotto(numbers, LOTTO_MIN, LOTTO_MAX, LOTTO_COUNT));
+    public static Lotto of(final LottoGenerator lottoGenerator, String numbers) {
+        return new Lotto(lottoGenerator.generateLottoNumbers(numbers, LOTTO_MIN, LOTTO_MAX, LOTTO_COUNT));
     }
 
     public List<Integer> getNumbers() {
