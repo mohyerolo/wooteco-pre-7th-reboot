@@ -19,4 +19,7 @@ public class Lotto {
         return new Lotto(lottoGenerator.generateLottoNumbers(min, max, count));
     }
 
+    public List<Integer> getNumbers() {
+        return numbers;
+    }
 }

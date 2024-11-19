@@ -17,4 +17,8 @@ public class LottoTickets {
         List<Lotto> lottos = LottoTicketsFactory.createLottos(purchasedAmount, purchaseUnit, lottoGenerator);
         return new LottoTickets(lottos);
     }
+
+    public List<Lotto> getLottos() {
+        return lottos;
+    }
 }
