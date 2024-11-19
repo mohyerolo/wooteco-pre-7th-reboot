@@ -41,6 +41,176 @@
 - 한 명 이상의 우승자 발표
     - 여러 명일 경우 쉼표로 구분
 
+#### 처음 구현했던 것과 달라진 점
+
+1. 서비스에서 뷰에 접근하던 기존 코드와 달리 이번에는 서비스는 비즈니스 로직만 담당하도록 구현
+2. 출력 코드를 컨트롤러에서 담당하도록 해서 컨트롤러의 역할에 집중
+3. 기존에는 InputParser에서 자동차 객체 생성을 했는데 Parser는 Parse의 역할만 하고 객체 생성은 도메인이나 Factory에서 담당
+
+<div style="display: flex; justify-content: space-between;">
+
+  <div style="width: 48%; padding: 10px;">
+    <h3>변경 전</h3>
+    <p>파서에서 문자열 분리, 검증, Car 객체 생성까지 담당</p>
+    <pre><code class="language-java">
+public class InputParser {
+    ...
+    public List&lt;Car&gt; parseRacingCarList(final Input input) {
+        List&lt;Car&gt; carList = splitCarsToList(input.getInput());
+        carNameValidator.validateCarNamesUnique(carList);
+        return carList;
+    }
+    private List&lt;Car&gt; splitCarsToList(final String cars) {
+        String[] carNames = cars.split(DELIMITER);
+        return createCarList(carNames);
+    }
+    private List&lt;Car&gt; createCarList(final String[] carNames) {
+        List&lt;Car&gt; carList = new ArrayList&lt;&gt;();
+        for (String carName : carNames) {
+            carNameValidator.validateCarNameLength(carName);
+            carList.add(Car.create(carName));
+        }
+        return carList;
+    }
+    public int parseTryCount(final Input input) {
+        int count = parseInteger(input.getInput());
+        tryCountValidator.validateTryCountGreaterZero(count);
+        return count;
+    }
+    private int parseInteger(final String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(GameErrorMessage.WRONG_TYPE_TRY_COUNT.getValue());
+        }
+    }
+}
+    </code></pre>
+  </div>
+
+  <div style="width: 48%; padding: 10px;">
+    <h3>변경 후</h3>
+    <p>파서에서는 분리와 파싱만, Cars 도메인에서 정적 팩토리 메서드 패턴으로 CarsFactory를 이용해 생성</p>
+    <pre><code class="language-java">
+public class InputParser {
+    private static final String DELIMITER = ",";
+    private static final String NUMBER_ERROR = "시도 횟수는 숫자여야합니다.";
+    public static String[] splitCarNames(String carNames) {
+        return carNames.split(DELIMITER);
+    }
+    public static int parseCount(String count) {
+        try {
+            return Integer.parseInt(count);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(NUMBER_ERROR);
+        }
+    }
+}
+public class Cars {
+   ...
+    private final List&lt;Car&gt; cars;
+    private Cars(final List&lt;Car&gt; cars) {
+        this.cars = cars;
+    }
+    public static Cars from(final String carNames) {
+        return new Cars(CarsFactory.createCars(carNames));
+    }
+    ...
+}
+public class CarsFactory {
+    public static List&lt;Car&gt; createCars(final String carNames) {
+        String[] splitCarNames = InputParser.splitCarNames(carNames);
+        validateCar(splitCarNames);
+        return createEachCar(splitCarNames);
+    }
+    private static void validateCar(final String[] splitCarNames) {
+        CarValidator.validateBlank(splitCarNames);
+        CarValidator.validateDuplicate(splitCarNames);
+    }
+    private static List&lt;Car&gt; createEachCar(final String[] splitCarNames) {
+        return Arrays.stream(splitCarNames)
+                .map(Car::new)
+                .toList();
+    }
+}
+    </code></pre>
+  </div>
+</div>
+
+4. 인터페이스 사용으로 자동차 경주 번호를 불러오는 방법에 유연성과 확장성 증가, Randoms에 대한 의존성 감소
+
+- 기존
+
+```java
+public void playOneRound() {
+    for (Car car : carList) {
+        int randomNum = Randoms.pickNumberInRange(0, 9);
+        car.moveOrNothing(randomNum);
+    }
+}
+```
+
+- 변경
+    - MoveGenerator -> RandomNumGenerator
+    - Cars에서 MoveGenerator를 매개변수로 받아 의존성 감소
+
+```java
+ public void playGame(final MoveGenerator moveGenerator) {
+    for (Car car : cars) {
+        int randomNum = moveGenerator.generateNumber(MIN_NUM, MAX_NUM);
+        car.moveOrNot(randomNum);
+    }
+}
+```
+
+5. Cars 객체에서 문자열 형식을 작업하는 게 아닌 객체를 반환하도록 변경해 MVC 패턴에서 도메인 계층의 역할에 맞도록 수정, 단일 책임 원칙도 지켜짐
+
+- 기존
+
+```java
+public String getWinners() {
+    List<String> winnerList = extractWinnerList();
+    return String.join(", ", winnerList);
+}
+
+private List<String> extractWinnerList() {
+    int highestScore = getHighestScore();
+    return createWinnerList(highestScore);
+}
+
+private int getHighestScore() {
+    return carList.stream()
+            .mapToInt(Car::getMoveCnt)
+            .max()
+            .orElse(0);
+}
+
+private List<String> createWinnerList(final int highestScore) {
+    return carList.stream()
+            .filter(c -> c.getMoveCnt() == highestScore)
+            .map(Car::getName)
+            .toList();
+}
+```
+
+- 변경
+
+```java
+public List<Car> findWinners() {
+    int highestMoveCnt = getWinningMoveCnt();
+    return cars.stream()
+            .filter(car -> car.isWinner(highestMoveCnt))
+            .toList();
+}
+
+private int getWinningMoveCnt() {
+    return cars.stream()
+            .mapToInt(Car::getMoveCnt)
+            .max()
+            .orElse(0);
+}
+```
+
 ### 세 번째 미션: 로또
 
 ### 네 번째 미션: 편의점
