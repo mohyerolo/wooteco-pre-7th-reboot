@@ -13,7 +13,7 @@ public class ViewValidator {
         }
     }
 
-    public static void validateNumError(String input) {
+    public static void validateNum(String input) {
         if (!input.matches(NUM_REGEX)) {
             throw new CustomIllegalException(NOT_NUM_ERROR);
         }

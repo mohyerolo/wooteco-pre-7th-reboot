@@ -1,5 +1,6 @@
 package org.wooteco.pre.lotto.validator;
 
+import org.wooteco.pre.lotto.domain.Lotto;
 import org.wooteco.pre.lotto.exception.CustomIllegalException;
 
 import java.util.Arrays;
@@ -25,15 +26,15 @@ public class LottoValidator {
         }
     }
 
-    public static void validateSize(final int size, final int neededSize) {
-        if (size != neededSize) {
-            throw new CustomIllegalException(String.format(SIZE_ERROR, neededSize));
+    public static void validateSize(final int size) {
+        if (size != Lotto.LOTTO_COUNT) {
+            throw new CustomIllegalException(String.format(SIZE_ERROR, Lotto.LOTTO_COUNT));
         }
     }
 
-    public static void validateRange(final List<Integer> numbers, final int min, final int max) {
-        if (isAnyNumRangeUnAble(numbers, min, max)) {
-            throw new CustomIllegalException(String.format(RANGE_ERROR_TEMPLATE, min, max));
+    public static void validateRange(final List<Integer> numbers) {
+        if (isAnyNumRangeUnAble(numbers)) {
+            throw new CustomIllegalException(String.format(RANGE_ERROR_TEMPLATE, Lotto.LOTTO_MIN, Lotto.LOTTO_MAX));
         }
     }
 
@@ -48,13 +49,13 @@ public class LottoValidator {
                 .anyMatch(number -> !number.matches(NUM_REGEX));
     }
 
-    private static boolean isAnyNumRangeUnAble(final List<Integer> numbers, final int min, final int max) {
+    private static boolean isAnyNumRangeUnAble(final List<Integer> numbers) {
         return numbers.stream()
-                .anyMatch(number -> isRangeUnable(number, min, max));
+                .anyMatch(LottoValidator::isRangeUnable);
     }
 
-    private static boolean isRangeUnable(final int number, final int min, final int max) {
-        return number < min || number > max;
+    private static boolean isRangeUnable(final int number) {
+        return number < Lotto.LOTTO_MIN || number > Lotto.LOTTO_MAX;
     }
 
     private static int getDistinctNumSize(final List<Integer> numbers) {
