@@ -18,6 +18,10 @@ public class LottoTickets {
         return new LottoTickets(lottos);
     }
 
+    public double calcReturnRate(final int totalPrize) {
+        return (double) totalPrize / (lottos.size() * purchaseUnit) * 100;
+    }
+
     public List<Lotto> getLottos() {
         return lottos;
     }

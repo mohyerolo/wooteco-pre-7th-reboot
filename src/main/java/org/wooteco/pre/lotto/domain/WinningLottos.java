@@ -6,8 +6,14 @@ public class WinningLottos {
 
     public WinningLottos(final Lotto winningLotto, int bonusNum) {
         this.winningLotto = winningLotto;
-        this.bonusNum= bonusNum;
+        this.bonusNum = bonusNum;
     }
 
+    public int checkLottosMatchCount(final Lotto purchasedLotto) {
+        return winningLotto.getMatchNumCount(purchasedLotto);
+    }
 
+    public boolean isBonusNumMatch(final Lotto purchasedLotto) {
+        return purchasedLotto.isContainingNum(bonusNum);
+    }
 }

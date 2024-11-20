@@ -23,6 +23,14 @@ public class Lotto {
         return new Lotto(lottoGenerator.generateLottoNumbers(numbers));
     }
 
+    public int getMatchNumCount(final Lotto lotto) {
+        return (int) numbers.stream().filter(lotto.numbers::contains).count();
+    }
+
+    public boolean isContainingNum(final int num) {
+        return numbers.contains(num);
+    }
+
     public List<Integer> getNumbers() {
         return numbers;
     }
