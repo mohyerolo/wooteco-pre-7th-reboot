@@ -1,6 +1,7 @@
 package org.wooteco.pre.lotto.constants;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -35,6 +36,12 @@ public enum Match {
             return Match.FIVE_BONUS;
         }
         return MATCH_MAP.get(matchCount);
+    }
+
+    public static Map<Match, Integer> initilizeMatchMap() {
+        Map<Match, Integer> matchCountData = new EnumMap<>(Match.class);
+        Arrays.stream(values()).forEach(match -> matchCountData.put(match, 0));
+        return matchCountData;
     }
 
     public static int getMinMatchCount() {

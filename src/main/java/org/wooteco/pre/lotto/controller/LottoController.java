@@ -43,7 +43,7 @@ public class LottoController {
     }
 
     private List<LottoDto> makeDto(LottoTickets lottoTickets) {
-        return lottoTickets.getLottos().stream()
+        return lottoTickets.getPurchasedLottos().stream()
                 .map(LottoDto::new)
                 .toList();
     }
