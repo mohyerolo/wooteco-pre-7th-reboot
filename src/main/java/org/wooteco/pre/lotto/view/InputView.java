@@ -13,14 +13,14 @@ public class InputView {
     }
 
     public String readWinLottoNumbers() {
-        System.out.println(DisplayMessage.INPUT_WIN_NUMBERS.getMessage());
+        System.out.printf("%n" + (DisplayMessage.INPUT_WIN_NUMBERS.getMessage()) + "%n");
         String numbers = Console.readLine();
         ViewValidator.validateBlank(numbers);
         return numbers;
     }
 
     public int readBonusNumber() {
-        System.out.println(DisplayMessage.INPUT_BONUS_NUMBERS.getMessage());
+        System.out.printf("%n" + (DisplayMessage.INPUT_BONUS_NUMBERS.getMessage()) + "%n");
         String bonus = Console.readLine();
         ViewValidator.validateBlank(bonus);
         ViewValidator.validateNum(bonus);
