@@ -32,7 +32,7 @@ public class LottoController {
 
         WinningLottos winningLottos = receiveWinningLottos();
         LottoResult lottoResult = lottoService.checkLottoResult(lottoTickets, winningLottos);
-
+        outputView.printLottoResult(lottoResult);
     }
 
     private LottoTickets issueLottoTickets() {
@@ -50,7 +50,7 @@ public class LottoController {
 
     private WinningLottos receiveWinningLottos() {
         Lotto winningLotto = getWinningLotto();
-        int bonusNum = getBonusNum();
+        int bonusNum = getBonusNum(winningLotto);
         return new WinningLottos(winningLotto, bonusNum);
     }
 
@@ -61,10 +61,11 @@ public class LottoController {
         });
     }
 
-    private int getBonusNum() {
+    private int getBonusNum(final Lotto winningLotto) {
         return executeWithRetry(() -> {
             int bonusNumber = inputView.readBonusNumber();
             LottoValidator.validateRange(bonusNumber);
+            LottoValidator.validateNotContainNum(winningLotto, bonusNumber);
             return bonusNumber;
         });
     }

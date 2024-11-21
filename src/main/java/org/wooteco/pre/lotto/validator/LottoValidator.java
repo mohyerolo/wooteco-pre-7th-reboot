@@ -13,6 +13,7 @@ public class LottoValidator {
     private static final String RANGE_ERROR_TEMPLATE = "번호는 %d와 %d 사이여야 합니다";
     private static final String SIZE_ERROR = "%d개의 번호가 필요합니다";
     private static final String NUM_DUPLICATED_ERROR = "번호가 중복되면 안됩니다";
+    private static final String BONUS_ALREADY_EXISTS = "보너스 번호는 로또 번호가 아닌 숫자여야 합니다";
 
     public static void purchasedAmountUnit(final int purchasedAmount, final int purchaseUnit) {
         if (purchasedAmount % purchaseUnit != 0) {
@@ -47,6 +48,12 @@ public class LottoValidator {
     public static void validateNonDuplicate(final List<Integer> numbers) {
         if (numbers.size() != getDistinctNumSize(numbers)) {
             throw new CustomIllegalException(NUM_DUPLICATED_ERROR);
+        }
+    }
+
+    public static void validateNotContainNum(final Lotto lotto, final int num) {
+        if (lotto.isContainingNum(num)) {
+            throw new CustomIllegalException(BONUS_ALREADY_EXISTS);
         }
     }
 
