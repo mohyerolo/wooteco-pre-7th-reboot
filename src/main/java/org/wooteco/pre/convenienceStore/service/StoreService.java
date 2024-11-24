@@ -1,6 +1,5 @@
 package org.wooteco.pre.convenienceStore.service;
 
-import org.wooteco.pre.convenienceStore.dao.ProductDao;
 import org.wooteco.pre.convenienceStore.domain.product.ProductFactory;
 import org.wooteco.pre.convenienceStore.domain.promotion.Promotion;
 import org.wooteco.pre.convenienceStore.domain.promotion.PromotionFactory;
