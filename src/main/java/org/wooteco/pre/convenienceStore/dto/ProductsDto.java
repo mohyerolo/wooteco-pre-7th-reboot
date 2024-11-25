@@ -1,7 +1,6 @@
-package org.wooteco.pre.convenienceStore.dao;
+package org.wooteco.pre.convenienceStore.dto;
 
 import org.wooteco.pre.convenienceStore.domain.product.Product;
-import org.wooteco.pre.convenienceStore.dto.ProductDto;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,8 +20,16 @@ public record ProductsDto(Map<String, List<ProductDto>> productMap) {
     }
 
     private static List<ProductDto> getProductDtos(Map.Entry<String, List<Product>> entry) {
-        return entry.getValue().stream()
+        List<ProductDto> productDtos = entry.getValue().stream()
                 .map(ProductDto::from)
                 .collect(Collectors.toList());
+        addStockOutDtoIfConditionMet(productDtos);
+        return productDtos;
+    }
+
+    private static void addStockOutDtoIfConditionMet(final List<ProductDto> productDtos) {
+        if (productDtos.size() == 1 && productDtos.getFirst().isPromotionExists()) {
+            productDtos.add(ProductDto.stockOutFrom(productDtos.getFirst()));
+        }
     }
 }
