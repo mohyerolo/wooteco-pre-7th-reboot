@@ -26,4 +26,16 @@ public class Product {
     public String getName() {
         return name;
     }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
+    }
 }

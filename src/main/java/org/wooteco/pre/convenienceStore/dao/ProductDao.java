@@ -2,10 +2,7 @@ package org.wooteco.pre.convenienceStore.dao;
 
 import org.wooteco.pre.convenienceStore.domain.product.Product;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProductDao {
     private static final ProductDao productDao = new ProductDao();
@@ -22,5 +19,9 @@ public class ProductDao {
 
     public void addProduct(final Product product) {
         products.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
+    }
+
+    public Map<String, List<Product>> findAll() {
+        return Collections.unmodifiableMap(products);
     }
 }
