@@ -1,11 +1,15 @@
 package org.wooteco.pre.convenienceStore.service;
 
+import org.wooteco.pre.convenienceStore.dao.ProductDao;
+import org.wooteco.pre.convenienceStore.domain.product.Product;
 import org.wooteco.pre.convenienceStore.domain.product.ProductFactory;
 import org.wooteco.pre.convenienceStore.domain.promotion.Promotion;
 import org.wooteco.pre.convenienceStore.domain.promotion.PromotionFactory;
+import org.wooteco.pre.convenienceStore.dto.ProductsDto;
 import org.wooteco.pre.convenienceStore.util.FileReaderUtil;
 
 import java.util.List;
+import java.util.Map;
 
 public class StoreService {
     private static final String promotionPath = "src/main/resources/promotions.md";
@@ -25,6 +29,11 @@ public class StoreService {
     private void createProductStorage(final List<Promotion> promotions) {
         List<String> productData = FileReaderUtil.readFile(productPath);
         productData.removeFirst();
-        ProductFactory.createProductStorage(productData, promotions.stream());
+        ProductFactory.createProductStorage(productData, promotions);
+    }
+
+    public ProductsDto createProductsDto() {
+        Map<String, List<Product>> products = ProductDao.getInstance().findAll();
+        return ProductsDto.createProductDtos(products);
     }
 }
