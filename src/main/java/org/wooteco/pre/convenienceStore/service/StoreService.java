@@ -31,9 +31,4 @@ public class StoreService {
         productData.removeFirst();
         ProductFactory.createProductStorage(productData, promotions);
     }
-
-    public ProductsDto createProductsDto() {
-        Map<String, List<Product>> products = ProductDao.getInstance().findAll();
-        return ProductsDto.createProductDtos(products);
-    }
 }
