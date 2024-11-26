@@ -11,4 +11,9 @@ public class NoPromotion extends Promotion {
     public boolean isAvailable() {
         return false;
     }
+
+    @Override
+    public boolean isPromotionExists() {
+        return false;
+    }
 }

@@ -38,6 +38,10 @@ public class Promotion {
         return name.equals(promotionName);
     }
 
+    public boolean isPromotionExists() {
+        return true;
+    }
+
     public String getName() {
         return name;
     }

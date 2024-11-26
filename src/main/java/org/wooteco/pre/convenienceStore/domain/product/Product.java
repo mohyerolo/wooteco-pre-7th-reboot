@@ -23,6 +23,10 @@ public class Product {
         return new Product(name, price, stock, promotion);
     }
 
+    public boolean isProductHasPromotion() {
+        return promotion.isPromotionExists();
+    }
+
     public String getName() {
         return name;
     }
