@@ -24,4 +24,8 @@ public class ProductDao {
     public Map<String, List<Product>> findAll() {
         return Collections.unmodifiableMap(products);
     }
+
+    public List<Product> findProducts(final String productName) {
+        return this.products.get(productName);
+    }
 }
