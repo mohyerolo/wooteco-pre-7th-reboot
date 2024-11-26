@@ -9,6 +9,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class OutputView {
+    private static final OutputView OUTPUT_VIEW = new OutputView();
+
+    private OutputView() {
+    }
+
+    public static OutputView getInstance() {
+        return OUTPUT_VIEW;
+    }
+
     public void printGreetings() {
         System.out.println(OutputMessage.GREETINGS.getMessage());
     }
