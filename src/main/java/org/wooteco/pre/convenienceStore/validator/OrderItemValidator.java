@@ -19,12 +19,6 @@ public class OrderItemValidator {
         }
     }
 
-    public static void validateQuantity(final int quantity) {
-        if (quantity < 1) {
-            throw new CustomIllegalException(ErrorMessage.INPUT_TYPE_ERROR.getMessage());
-        }
-    }
-
     public static void validateStock(final int productAllStock, final int orderQuantity) {
         if (productAllStock < orderQuantity) {
             throw new CustomIllegalException(ErrorMessage.EXCEEDED_STOCK.getMessage());

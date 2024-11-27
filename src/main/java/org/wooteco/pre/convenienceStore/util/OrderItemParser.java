@@ -14,6 +14,7 @@ public class OrderItemParser {
     }
 
     private static String deleteWrapper(final String input) {
+        OrderItemValidator.validateOrder(input);
         return input.replaceAll(ORDER_ITEM_REGEX, "");
     }
 
