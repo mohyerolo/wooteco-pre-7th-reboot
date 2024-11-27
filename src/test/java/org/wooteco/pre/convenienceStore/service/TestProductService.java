@@ -16,11 +16,15 @@ public class TestProductService implements ProductService {
 
     public TestProductService() {
         String[] colaData = new String[]{"콜라", "1000", "10", "탄산2+1"};
+        String[] orangeData = new String[]{"오렌지주스", "1000", "10", "null"};
         String[] promotionData = new String[]{"탄산2+1", "2", "1", "2024-11-19", String.valueOf(LocalDate.now())};
         Promotion promotion = Promotion.from(promotionData);
+
         Product cola = Product.of(colaData, promotion);
         Product cola2 = Product.of(colaData, new NoPromotion());
-        products = new ArrayList<>(List.of(cola, cola2));
+        Product orange = Product.of(orangeData, new NoPromotion());
+
+        products = new ArrayList<>(List.of(cola, cola2, orange));
     }
 
     @Override
