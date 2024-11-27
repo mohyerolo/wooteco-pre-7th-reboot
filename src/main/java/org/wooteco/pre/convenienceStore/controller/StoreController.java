@@ -15,17 +15,17 @@ public class StoreController {
     private final OutputView outputView = AppConfig.outputView();
 
     private final StoreService storeService;
-    private ProductService productService;
-    private OrderService orderService;
+    private final ProductService productService;
+    private final OrderService orderService;
 
-    public StoreController(final StoreService storeService) {
+    public StoreController(final StoreService storeService, final ProductService productService, final OrderService orderService) {
         this.storeService = storeService;
+        this.productService = productService;
+        this.orderService = orderService;
     }
 
     public void open() {
-        productService = new DefaultProductService(new ProductDao());
         setup();
-        orderService = new OrderService(new OrderItemService(productService));
         Order order = takeOrder();
     }
 
