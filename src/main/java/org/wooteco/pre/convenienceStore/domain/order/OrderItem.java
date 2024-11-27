@@ -15,7 +15,8 @@ public class OrderItem {
 
     public static OrderItem of(final Product product, final int sameProductsStock, final String orderQuantity) {
         int quantity = InputParser.parseStringToInt(orderQuantity);
-        OrderItemValidator.validateQuantity(sameProductsStock, quantity);
+        OrderItemValidator.validateQuantity(quantity);
+        OrderItemValidator.validateStock(sameProductsStock, quantity);
         return new OrderItem(product, quantity);
     }
 
