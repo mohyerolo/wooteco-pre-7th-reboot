@@ -30,7 +30,7 @@ public class StoreController {
     }
 
     private void setup() {
-        storeService.makeStore(productService);
+        storeService.makeStore();
         outputView.printGreetings();
         outputView.printPresentProductsStatus(productService.createProductsDto());
     }

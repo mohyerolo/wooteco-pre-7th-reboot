@@ -23,7 +23,7 @@ public class AppConfig {
     }
 
     private static StoreService storeService() {
-        return new StoreService();
+        return new StoreService(PRODUCT_SERVICE);
     }
 
     private static OrderService orderService() {

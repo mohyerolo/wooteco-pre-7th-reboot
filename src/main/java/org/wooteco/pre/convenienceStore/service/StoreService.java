@@ -10,9 +10,15 @@ public class StoreService {
     private static final String promotionPath = "src/main/resources/promotions.md";
     private static final String productPath = "src/main/resources/products.md";
 
-    public void makeStore(final ProductService productService) {
+    private final ProductService productService;
+
+    public StoreService(final ProductService productService) {
+        this.productService = productService;
+    }
+
+    public void makeStore() {
         List<Promotion> promotions = createPromotion();
-        createProductStorage(productService, promotions);
+        createProductStorage(promotions);
     }
 
     private List<Promotion> createPromotion() {
@@ -21,7 +27,7 @@ public class StoreService {
         return PromotionFactory.createPromotions(promotionData);
     }
 
-    private void createProductStorage(final ProductService productService, final List<Promotion> promotions) {
+    private void createProductStorage(final List<Promotion> promotions) {
         List<String> productData = FileReaderUtil.readFile(productPath);
         productData.removeFirst();
         productService.createProductData(productData, promotions);
