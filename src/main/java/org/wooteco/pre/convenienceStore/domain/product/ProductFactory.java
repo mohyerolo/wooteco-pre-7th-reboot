@@ -9,9 +9,7 @@ import java.util.List;
 public class ProductFactory {
     private static final String DELIMITER = ",";
 
-    private static final ProductDao productDao = ProductDao.getInstance();
-
-    public static void createProductStorage(final List<String> productData, final List<Promotion> promotions) {
+    public static void createProductStorage(final ProductDao productDao, final List<String> productData, final List<Promotion> promotions) {
         productData.forEach(data -> {
             String[] splitData = splitPromotion(data);
             productDao.addProduct(Product.of(splitData, createPromotion(splitData[3], promotions)));

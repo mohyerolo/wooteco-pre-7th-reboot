@@ -19,7 +19,7 @@ class ProductDaoTest {
 
     @BeforeEach
     void setup() {
-        productDao = ProductDao.getInstance();
+        productDao = new ProductDao();
         all = productDao.findAll();
         String[] data = new String[]{"탄산2+1", "2", "1", "2024-11-19", String.valueOf(LocalDate.now())};
         promotion = Promotion.from(data);
