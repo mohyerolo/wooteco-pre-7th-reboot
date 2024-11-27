@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class InputValidator {
-    private static final String INT_REGEX = "^\\d+$";
+    private static final String INT_REGEX = "^[1-9]\\d*$";
     private static final String STRING_EXP = "(?!^\\s*$).+";
 
     public static void validateNumber(final String input) {
