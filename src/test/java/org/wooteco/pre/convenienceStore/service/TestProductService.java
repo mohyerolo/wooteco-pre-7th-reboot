@@ -28,6 +28,10 @@ public class TestProductService implements ProductService {
     }
 
     @Override
+    public void createProductData(List<String> productData, List<Promotion> promotions) {
+    }
+
+    @Override
     public ProductsDto createProductsDto() {
         return null;
     }
@@ -42,10 +46,17 @@ public class TestProductService implements ProductService {
     }
 
     @Override
-    public Product selectHighPriorityProduct(final List<Product> products) {
+    public Product selectHighPriorityProduct(final String productName) {
+        List<Product> products = findProducts(productName);
         return products.stream()
                 .filter(Product::isProductHasPromotion)
                 .findFirst()
                 .orElseGet(products::getFirst);
+    }
+
+    @Override
+    public int sumProductAllStock(final Product product) {
+        List<Product> products1 = findProducts(product.getName());
+        return products1.stream().mapToInt(Product::getStock).sum();
     }
 }

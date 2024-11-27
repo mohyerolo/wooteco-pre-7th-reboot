@@ -2,6 +2,8 @@ package org.wooteco.pre.convenienceStore.service;
 
 import org.wooteco.pre.convenienceStore.dao.ProductDao;
 import org.wooteco.pre.convenienceStore.domain.product.Product;
+import org.wooteco.pre.convenienceStore.domain.product.ProductFactory;
+import org.wooteco.pre.convenienceStore.domain.promotion.Promotion;
 import org.wooteco.pre.convenienceStore.dto.ProductsDto;
 import org.wooteco.pre.convenienceStore.exception.CustomIllegalException;
 
@@ -17,8 +19,13 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
+    public void createProductData(List<String> productData, List<Promotion> promotions) {
+        ProductFactory.createProductStorage(productDao, productData, promotions);
+    }
+
+    @Override
     public ProductsDto createProductsDto() {
-        Map<String, List<Product>> products = ProductDao.getInstance().findAll();
+        Map<String, List<Product>> products = productDao.findAll();
         return ProductsDto.createProductDtos(products);
     }
 
@@ -32,10 +39,17 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product selectHighPriorityProduct(final List<Product> products) {
+    public Product selectHighPriorityProduct(final String productName) {
+        List<Product> products = findProducts(productName);
         return products.stream()
                 .filter(Product::isProductHasPromotion)
                 .findFirst()
                 .orElseGet(products::getFirst);
     }
+
+    @Override
+    public int sumProductAllStock(final Product product) {
+        return productDao.findProductAllStock(product.getName());
+    }
+
 }

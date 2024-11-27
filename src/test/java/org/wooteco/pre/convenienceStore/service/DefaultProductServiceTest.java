@@ -22,7 +22,7 @@ class DefaultProductServiceTest {
 
     @BeforeAll
     static void setup() {
-        ProductDao productDao = ProductDao.getInstance();
+        ProductDao productDao = new ProductDao();
         defaultProductService = new DefaultProductService(productDao);
 
         String[] data = new String[]{"탄산2+1", "2", "1", "2024-11-19", String.valueOf(LocalDate.now())};
@@ -44,15 +44,13 @@ class DefaultProductServiceTest {
 
     @Test
     void 상품중_프로모션상품_찾기() {
-        List<Product> products = defaultProductService.findProducts(cola.getName());
-        Product product = defaultProductService.selectHighPriorityProduct(products);
+        Product product = defaultProductService.selectHighPriorityProduct(cola.getName());
         assertThat(product).isEqualTo(cola);
     }
 
     @Test
     void 상품이_하나면_그걸로_가져오기() {
-        List<Product> products = defaultProductService.findProducts(sprite.getName());
-        Product product = defaultProductService.selectHighPriorityProduct(products);
+        Product product = defaultProductService.selectHighPriorityProduct(sprite.getName());
         assertThat(product).isEqualTo(sprite);
     }
 
