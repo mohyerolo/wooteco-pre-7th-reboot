@@ -42,7 +42,18 @@ public class Promotion {
         return true;
     }
 
+    public int calcAddableQuantity(final int quantity) {
+        if (calcRemainQuantity(quantity) == buy) {
+            return free;
+        }
+        return 0;
+    }
+
     public String getName() {
         return name;
+    }
+
+    private int calcRemainQuantity(final int quantity) {
+        return quantity % (buy + free);
     }
 }

@@ -26,8 +26,20 @@ public class OrderItem {
         this.quantity += quantity;
     }
 
+    public boolean isExistPromotion() {
+        return product.isAvailablePromotion();
+    }
+
+    public boolean isNeedMoreQuantity() {
+        return product.isQuantityCanPromotion(quantity);
+    }
+
+
     public int getQuantity() {
         return quantity;
     }
 
+    public Product getProduct() {
+        return product;
+    }
 }

@@ -27,6 +27,14 @@ public class Product {
         return promotion.isPromotionExists();
     }
 
+    public boolean isAvailablePromotion() {
+        return promotion.isPromotionExists() && promotion.isAvailable();
+    }
+
+    public boolean isQuantityCanPromotion(final int quantity) {
+        return promotion.calcAddableQuantity(quantity) != 0;
+    }
+
     public String getName() {
         return name;
     }
