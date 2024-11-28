@@ -31,6 +31,11 @@ public class Product {
         return promotion.isPromotionExists() && promotion.isAvailable();
     }
 
+    public boolean isPromotionLack(final int quantity) {
+        return !isAvailablePromotion() || (stock < quantity + promotion.calcAddableQuantity(quantity));
+    }
+
+
     public boolean isQuantityCanPromotion(final int quantity) {
         return promotion.calcAddableQuantity(quantity) != 0;
     }
