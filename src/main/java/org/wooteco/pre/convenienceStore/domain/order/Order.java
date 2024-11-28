@@ -14,7 +14,7 @@ public class Order {
         this.membership = membership;
     }
 
-    public void addOrUpdate(final OrderItem orderItem, int stock) {
+    public void addOrUpdate(final OrderItem orderItem, final int stock) {
         findSameProduct(orderItem)
                 .ifPresentOrElse(
                         existingItem -> existingItem.addQuantity(stock, orderItem.getQuantity()),
@@ -22,10 +22,10 @@ public class Order {
                 );
     }
 
-    private Optional<OrderItem> findSameProduct(OrderItem newItem) {
+    public List<OrderItem> getHavingPromotionItem() {
         return orderItems.stream()
-                .filter(orderItem -> orderItem.isSameProduct(newItem))
-                .findFirst();
+                .filter(OrderItem::isExistPromotion)
+                .toList();
     }
 
     public List<OrderItem> getOrderItems() {
@@ -34,5 +34,11 @@ public class Order {
 
     public Membership getMembership() {
         return membership;
+    }
+
+    private Optional<OrderItem> findSameProduct(final OrderItem newItem) {
+        return orderItems.stream()
+                .filter(orderItem -> orderItem.isSameProduct(newItem))
+                .findFirst();
     }
 }
