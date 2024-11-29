@@ -26,7 +26,7 @@ public class OutputView {
         System.out.println(OutputMessage.PRESENT_PRODUCTS.getMessage());
         System.out.println();
         String productList = appendProductSentence(productsMap.productMap());
-        System.out.print(productList);
+        System.out.println(productList);
     }
 
     private String appendProductSentence(final Map<String, List<ProductDto>> productsMap) {
