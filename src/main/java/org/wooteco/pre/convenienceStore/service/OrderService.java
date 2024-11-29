@@ -2,7 +2,11 @@ package org.wooteco.pre.convenienceStore.service;
 
 import org.wooteco.pre.convenienceStore.constants.Membership;
 import org.wooteco.pre.convenienceStore.domain.order.Order;
+import org.wooteco.pre.convenienceStore.domain.order.OrderItem;
+import org.wooteco.pre.convenienceStore.domain.order.UpdateOrderItem;
 import org.wooteco.pre.convenienceStore.util.InputParser;
+
+import java.util.List;
 
 public class OrderService {
 
@@ -21,5 +25,9 @@ public class OrderService {
         return order;
     }
 
+    public List<UpdateOrderItem> getItemNeedUpdate(final Order order) {
+        List<OrderItem> orderItems = order.getHavingPromotionItem();
+        return orderItemService.collectItemNeedUpdate(orderItems);
+    }
 
 }

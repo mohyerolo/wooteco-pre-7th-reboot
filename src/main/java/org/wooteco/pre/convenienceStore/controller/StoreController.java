@@ -2,12 +2,15 @@ package org.wooteco.pre.convenienceStore.controller;
 
 import org.wooteco.pre.convenienceStore.config.AppConfig;
 import org.wooteco.pre.convenienceStore.constants.Membership;
-import org.wooteco.pre.convenienceStore.dao.ProductDao;
 import org.wooteco.pre.convenienceStore.domain.order.Order;
-import org.wooteco.pre.convenienceStore.service.*;
+import org.wooteco.pre.convenienceStore.domain.order.UpdateOrderItem;
+import org.wooteco.pre.convenienceStore.service.OrderService;
+import org.wooteco.pre.convenienceStore.service.ProductService;
+import org.wooteco.pre.convenienceStore.service.StoreService;
 import org.wooteco.pre.convenienceStore.view.InputView;
 import org.wooteco.pre.convenienceStore.view.OutputView;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class StoreController {
@@ -27,6 +30,7 @@ public class StoreController {
     public void open() {
         setup();
         Order order = takeOrder();
+        List<UpdateOrderItem> itemNeedUpdate = orderService.getItemNeedUpdate(order);
     }
 
     private void setup() {
