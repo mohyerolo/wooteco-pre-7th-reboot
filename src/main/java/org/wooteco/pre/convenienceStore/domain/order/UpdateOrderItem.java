@@ -1,17 +1,23 @@
 package org.wooteco.pre.convenienceStore.domain.order;
 
+import org.wooteco.pre.convenienceStore.constants.UpdateItemType;
+
 public class UpdateOrderItem {
     private final OrderItem orderItem;
-    private final boolean addable;
+    private final UpdateItemType updateType;
     private final int quantity;
 
-    private UpdateOrderItem(OrderItem orderItem, boolean addable, int quantity) {
+    private UpdateOrderItem(OrderItem orderItem, UpdateItemType updateType, int quantity) {
         this.orderItem = orderItem;
-        this.addable = addable;
+        this.updateType = updateType;
         this.quantity = quantity;
     }
 
-    public UpdateOrderItem from(final OrderItem orderItem) {
+    public static UpdateOrderItem unavailableOf(final OrderItem orderItem, final int quantity) {
+        return new UpdateOrderItem(orderItem, UpdateItemType.UNAVAILABLE_PROMOTION, quantity);
+    }
 
+    public static UpdateOrderItem addableOf(final OrderItem orderItem, final int quantity) {
+        return new UpdateOrderItem(orderItem, UpdateItemType.ADDABLE_ITEM, quantity);
     }
 }
