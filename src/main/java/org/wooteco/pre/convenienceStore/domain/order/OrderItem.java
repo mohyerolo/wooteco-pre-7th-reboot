@@ -30,10 +30,17 @@ public class OrderItem {
         return product.isAvailablePromotion();
     }
 
-    public boolean isNeedMoreQuantity() {
-        return product.isQuantityCanPromotion(quantity);
+    public boolean isPromotionLack() {
+        return product.isPromotionLack(quantity);
     }
 
+    public int getRemainQuantity() {
+        return quantity - product.calcPromotionQuantity(quantity);
+    }
+
+    public int getAddableQuantity() {
+        return product.calcAddableQuantity(quantity);
+    }
 
     public int getQuantity() {
         return quantity;

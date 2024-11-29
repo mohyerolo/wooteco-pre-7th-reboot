@@ -35,9 +35,12 @@ public class Product {
         return !isAvailablePromotion() || (stock < quantity + promotion.calcAddableQuantity(quantity));
     }
 
+    public int calcPromotionQuantity(final int quantity) {
+        return promotion.calcPromotionStock(stock, quantity);
+    }
 
-    public boolean isQuantityCanPromotion(final int quantity) {
-        return promotion.calcAddableQuantity(quantity) != 0;
+    public int calcAddableQuantity(final int quantity) {
+        return promotion.calcAddableQuantity(quantity);
     }
 
     public String getName() {

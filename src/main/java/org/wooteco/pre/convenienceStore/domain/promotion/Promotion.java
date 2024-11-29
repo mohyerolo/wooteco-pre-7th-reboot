@@ -49,11 +49,19 @@ public class Promotion {
         return 0;
     }
 
+    public int calcPromotionStock(final int stock, final int order) {
+        return calcPromotionSets(stock, order) * (buy + free);
+    }
+
     public String getName() {
         return name;
     }
 
     private int calcRemainQuantity(final int quantity) {
         return quantity % (buy + free);
+    }
+
+    private int calcPromotionSets(final int stock, final int order) {
+        return Math.min(stock, order) / (buy + free);
     }
 }
