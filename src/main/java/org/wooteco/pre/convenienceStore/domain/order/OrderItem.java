@@ -50,6 +50,10 @@ public class OrderItem {
         return product.calcAddableQuantity(quantity);
     }
 
+    public boolean exist() {
+        return quantity != 0;
+    }
+
     public int getQuantity() {
         return quantity;
     }

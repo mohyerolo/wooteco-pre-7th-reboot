@@ -28,6 +28,11 @@ public class Order {
                 .toList();
     }
 
+    public boolean isStillExist() {
+        return orderItems.stream()
+                .anyMatch(OrderItem::exist);
+    }
+
     public List<OrderItem> getOrderItems() {
         return orderItems;
     }
