@@ -20,4 +20,24 @@ public class UpdateOrderItem {
     public static UpdateOrderItem addableOf(final OrderItem orderItem, final int quantity) {
         return new UpdateOrderItem(orderItem, UpdateItemType.ADDABLE_ITEM, quantity);
     }
+
+    public boolean isAddable() {
+        return updateType.equals(UpdateItemType.ADDABLE_ITEM);
+    }
+
+    public void increaseQuantity() {
+        orderItem.addQuantity(quantity);
+    }
+
+    public void decreaseQuantity() {
+        orderItem.decreaseQuantity(quantity);
+    }
+
+    public OrderItem getOrderItem() {
+        return orderItem;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }

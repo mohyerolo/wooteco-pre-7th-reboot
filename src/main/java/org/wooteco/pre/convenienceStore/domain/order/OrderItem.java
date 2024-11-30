@@ -21,9 +21,17 @@ public class OrderItem {
         return this.product.equals(orderItem.product);
     }
 
+    public void addQuantity(final int quantity) {
+        this.quantity += quantity;
+    }
+
     public void addQuantity(final int productStock, final int quantity) {
         OrderItemValidator.validateStock(productStock, this.quantity + quantity);
         this.quantity += quantity;
+    }
+
+    public void decreaseQuantity(final int quantity) {
+        this.quantity -= quantity;
     }
 
     public boolean isExistPromotion() {
