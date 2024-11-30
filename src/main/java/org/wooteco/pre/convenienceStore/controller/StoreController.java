@@ -31,20 +31,28 @@ public class StoreController {
     }
 
     public void open() {
-        setup();
-        Order order = takeOrder();
-        List<UpdateOrderItem> itemNeedUpdate = orderService.getItemNeedUpdate(order);
-        updateOrder(itemNeedUpdate);
-        System.out.println();
+        storeService.makeStore();
+        do {
+            printStore();
+            Order order = takeOrder();
+            if (order.isStillExist()) {
+            }
+        } while (askRestart());
     }
 
-    private void setup() {
-        storeService.makeStore();
+    private void printStore() {
         outputView.printGreetings();
         outputView.printPresentProductsStatus(productService.createProductsDto());
     }
 
     private Order takeOrder() {
+        Order order = askOrder();
+        List<UpdateOrderItem> itemNeedUpdate = orderService.getItemNeedUpdate(order);
+        updateOrder(itemNeedUpdate);
+        return order;
+    }
+
+    private Order askOrder() {
         return executeWithRetry(() -> orderService.createOrder(inputView.readOrder(), Membership.DEFAULT));
     }
 
@@ -83,6 +91,14 @@ public class StoreController {
     private boolean askNoPromotionOk(final UpdateOrderItem item) {
         return executeWithRetry(() -> {
             String answer = inputView.readNoPromotionOK(new UpdateDto(item));
+            InputValidator.validateAnswer(answer);
+            return answer.equals(ANSWER_Y);
+        });
+    }
+
+    private boolean askRestart() {
+        return executeWithRetry(() -> {
+            String answer = inputView.readRestart();
             InputValidator.validateAnswer(answer);
             return answer.equals(ANSWER_Y);
         });
