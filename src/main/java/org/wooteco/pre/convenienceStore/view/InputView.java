@@ -10,7 +10,8 @@ public class InputView {
     private static final String INPUT_NO_PROMOTION = "현재 %s %d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)";
     private static final InputView INPUT_VIEW = new InputView();
 
-    private InputView() {}
+    private InputView() {
+    }
 
     public static InputView getInstance() {
         return INPUT_VIEW;
@@ -26,7 +27,7 @@ public class InputView {
         return readInput();
     }
 
-    public String readNoPromotion(final UpdateDto dto) {
+    public String readNoPromotionOK(final UpdateDto dto) {
         System.out.printf(String.format(INPUT_NO_PROMOTION, dto.getProductName(), dto.getQuantity()) + "%n");
         return readInput();
     }
