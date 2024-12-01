@@ -36,6 +36,7 @@ public class StoreController {
             printStore();
             Order order = takeOrder();
             if (order.isStillExist()) {
+
             }
         } while (askRestart());
     }
@@ -53,7 +54,7 @@ public class StoreController {
     }
 
     private Order askOrder() {
-        return executeWithRetry(() -> orderService.createOrder(inputView.readOrder(), Membership.DEFAULT));
+        return executeWithRetry(() -> orderService.createOrder(inputView.readOrder(), Membership.NONE));
     }
 
     private void updateOrder(final List<UpdateOrderItem> updateOrderItems) {
