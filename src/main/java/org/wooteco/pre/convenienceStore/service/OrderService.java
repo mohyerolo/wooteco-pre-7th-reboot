@@ -34,6 +34,6 @@ public class OrderService {
     public Receipt divideItems(final Order order) {
         List<OrderItem> orderItems = order.getOrderItems();
         List<OrderItem> freeItems = orderItemService.findFreeItem(orderItems);
-        return new Receipt(orderItems, freeItems);
+        return Receipt.of(orderItems, freeItems);
     }
 }

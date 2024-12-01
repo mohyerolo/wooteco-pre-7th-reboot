@@ -68,9 +68,7 @@ public class OrderItemService {
 
     private void addFreeItem(final List<OrderItem> freeItems, final OrderItem orderItem) {
         int promotionFreeQuantity = productService.getPromotionFreeQuantity(orderItem.getProduct().getName(), orderItem.getQuantity());
-        if (promotionFreeQuantity != 0) {
-            freeItems.add(OrderItem.itemOf(orderItem, promotionFreeQuantity));
-        }
+        freeItems.add(OrderItem.itemOf(orderItem, promotionFreeQuantity));
     }
 
 }
