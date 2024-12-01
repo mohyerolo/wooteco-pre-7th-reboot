@@ -16,4 +16,6 @@ public interface ProductService {
     Product selectHighPriorityProduct(final String productName);
 
     int sumProductAllStock(final Product product);
+
+    int getPromotionFreeQuantity(final String productName, final int quantity);
 }

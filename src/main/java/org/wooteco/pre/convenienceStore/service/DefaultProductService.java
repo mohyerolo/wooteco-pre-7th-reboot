@@ -52,4 +52,10 @@ public class DefaultProductService implements ProductService {
         return productDao.findProductAllStock(product.getName());
     }
 
+    @Override
+    public int getPromotionFreeQuantity(final String productName, int quantity) {
+        Product product = selectHighPriorityProduct(productName);
+        return product.calcPromotionFreeQuantity(quantity);
+    }
+
 }

@@ -61,5 +61,16 @@ class DefaultProductServiceTest {
                 .withMessageContaining(NON_EXIST_PRODUCT);
     }
 
+    @Test
+    void 프로모션이면_free개수_0() {
+        assertThat(defaultProductService.getPromotionFreeQuantity(sprite.getName(), 2)).isEqualTo(0);
+    }
+
+    @Test
+    void 프로모션_free개수_반환성공() {
+        assertThat(defaultProductService.getPromotionFreeQuantity(cola.getName(), 3)).isEqualTo(1);
+        assertThat(defaultProductService.getPromotionFreeQuantity(cola.getName(), 5)).isEqualTo(1);
+
+    }
 
 }

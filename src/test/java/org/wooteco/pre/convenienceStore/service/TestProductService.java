@@ -59,4 +59,10 @@ public class TestProductService implements ProductService {
         List<Product> products1 = findProducts(product.getName());
         return products1.stream().mapToInt(Product::getStock).sum();
     }
+
+    @Override
+    public int getPromotionFreeQuantity(final String productName, final int quantity) {
+        Product product = selectHighPriorityProduct(productName);
+        return product.calcPromotionFreeQuantity(quantity);
+    }
 }

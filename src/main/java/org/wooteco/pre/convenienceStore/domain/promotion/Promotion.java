@@ -53,6 +53,10 @@ public class Promotion {
         return calcPromotionSets(stock, order) * (buy + free);
     }
 
+    public int calcPromotionFree(final int stock, final int order) {
+        return calcPromotionSets(stock, order) * free;
+    }
+
     public String getName() {
         return name;
     }

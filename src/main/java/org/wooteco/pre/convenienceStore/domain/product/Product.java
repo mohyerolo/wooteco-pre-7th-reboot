@@ -39,6 +39,10 @@ public class Product {
         return promotion.calcPromotionStock(stock, quantity);
     }
 
+    public int calcPromotionFreeQuantity(final int quantity) {
+        return promotion.calcPromotionFree(stock, quantity);
+    }
+
     public int calcAddableQuantity(final int quantity) {
         return promotion.calcAddableQuantity(quantity);
     }

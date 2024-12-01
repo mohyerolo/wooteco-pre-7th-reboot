@@ -16,4 +16,9 @@ public class NoPromotion extends Promotion {
     public boolean isPromotionExists() {
         return false;
     }
+
+    @Override
+    public int calcPromotionFree(final int stock, final int order) {
+        return 0;
+    }
 }
