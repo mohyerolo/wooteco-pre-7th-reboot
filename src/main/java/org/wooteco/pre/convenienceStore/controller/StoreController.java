@@ -36,6 +36,7 @@ public class StoreController {
             printStore();
             Order order = takeOrder();
             if (order.isStillExist()) {
+                applyMembership(order);
 
             }
         } while (askRestart());
@@ -92,6 +93,20 @@ public class StoreController {
     private boolean askNoPromotionOk(final UpdateOrderItem item) {
         return executeWithRetry(() -> {
             String answer = inputView.readNoPromotionOK(new UpdateDto(item));
+            InputValidator.validateAnswer(answer);
+            return answer.equals(ANSWER_Y);
+        });
+    }
+
+    private void applyMembership(final Order order) {
+        if (askMembership()) {
+            order.applyMembership();
+        }
+    }
+
+    private boolean askMembership() {
+        return executeWithRetry(() -> {
+            String answer = inputView.readMembership();
             InputValidator.validateAnswer(answer);
             return answer.equals(ANSWER_Y);
         });

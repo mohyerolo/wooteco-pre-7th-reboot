@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class Order {
     private final List<OrderItem> orderItems = new ArrayList<>();
-    private final Membership membership;
+    private Membership membership;
 
     public Order(final Membership membership) {
         this.membership = membership;
@@ -31,6 +31,10 @@ public class Order {
     public boolean isStillExist() {
         return orderItems.stream()
                 .anyMatch(OrderItem::exist);
+    }
+
+    public void applyMembership() {
+        membership = Membership.DEFAULT;
     }
 
     public List<OrderItem> getOrderItems() {
