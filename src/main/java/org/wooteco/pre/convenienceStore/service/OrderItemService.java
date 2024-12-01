@@ -34,6 +34,14 @@ public class OrderItemService {
         return updateOrderItems;
     }
 
+    public List<OrderItem> findFreeItem(final List<OrderItem> orderItems) {
+        List<OrderItem> freeItems = new ArrayList<>();
+        orderItems.stream()
+                .filter(OrderItem::isExistPromotion)
+                .forEach(orderItem -> addFreeItem(freeItems, orderItem));
+        return freeItems;
+    }
+
     private void proceedCollection(final List<UpdateOrderItem> updateOrderItems, final OrderItem orderItem) {
         if (orderItem.isPromotionLack()) {
             addUnAvailableItem(updateOrderItems, orderItem);
@@ -55,6 +63,13 @@ public class OrderItemService {
         int addableQuantity = orderItem.getAddableQuantity();
         if (addableQuantity > 0) {
             updateOrderItems.add(UpdateOrderItem.addableOf(orderItem, addableQuantity));
+        }
+    }
+
+    private void addFreeItem(final List<OrderItem> freeItems, final OrderItem orderItem) {
+        int promotionFreeQuantity = productService.getPromotionFreeQuantity(orderItem.getProduct().getName(), orderItem.getQuantity());
+        if (promotionFreeQuantity != 0) {
+            freeItems.add(OrderItem.itemOf(orderItem, promotionFreeQuantity));
         }
     }
 

@@ -3,6 +3,7 @@ package org.wooteco.pre.convenienceStore.service;
 import org.wooteco.pre.convenienceStore.constants.Membership;
 import org.wooteco.pre.convenienceStore.domain.order.Order;
 import org.wooteco.pre.convenienceStore.domain.order.OrderItem;
+import org.wooteco.pre.convenienceStore.domain.order.Receipt;
 import org.wooteco.pre.convenienceStore.domain.order.UpdateOrderItem;
 import org.wooteco.pre.convenienceStore.util.InputParser;
 
@@ -30,4 +31,9 @@ public class OrderService {
         return orderItemService.collectItemNeedUpdate(orderItems);
     }
 
+    public Receipt divideItems(final Order order) {
+        List<OrderItem> orderItems = order.getOrderItems();
+        List<OrderItem> freeItems = orderItemService.findFreeItem(orderItems);
+        return new Receipt(orderItems, freeItems);
+    }
 }

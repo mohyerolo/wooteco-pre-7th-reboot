@@ -17,6 +17,10 @@ public class OrderItem {
         return new OrderItem(product, quantity);
     }
 
+    public static OrderItem itemOf(final OrderItem orderItem, final int quantity) {
+        return new OrderItem(orderItem.getProduct(), quantity);
+    }
+
     public boolean isSameProduct(final OrderItem orderItem) {
         return this.product.equals(orderItem.product);
     }

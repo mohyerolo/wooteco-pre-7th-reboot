@@ -41,6 +41,5 @@ class OrderServiceTest {
         Order order = orderService.createOrder("[콜라-2],[오렌지주스-1],[콜라-5]", Membership.DEFAULT);
         Assertions.assertThat(order.getOrderItems().size()).isEqualTo(2);
         Assertions.assertThat(order.getOrderItems().getFirst().getQuantity()).isEqualTo(7);
-
     }
 }

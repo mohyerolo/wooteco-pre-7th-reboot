@@ -3,6 +3,7 @@ package org.wooteco.pre.convenienceStore.controller;
 import org.wooteco.pre.convenienceStore.config.AppConfig;
 import org.wooteco.pre.convenienceStore.constants.Membership;
 import org.wooteco.pre.convenienceStore.domain.order.Order;
+import org.wooteco.pre.convenienceStore.domain.order.Receipt;
 import org.wooteco.pre.convenienceStore.domain.order.UpdateOrderItem;
 import org.wooteco.pre.convenienceStore.dto.UpdateDto;
 import org.wooteco.pre.convenienceStore.service.OrderService;
@@ -37,7 +38,7 @@ public class StoreController {
             Order order = takeOrder();
             if (order.isStillExist()) {
                 applyMembership(order);
-
+                Receipt receipt = orderService.divideItems(order);
             }
         } while (askRestart());
     }
