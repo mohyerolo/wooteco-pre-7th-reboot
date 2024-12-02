@@ -30,20 +30,17 @@ public class OutputView {
         System.out.println(PRESENT_PRODUCTS.getMessage());
         System.out.println();
         String productList = appendProductSentence(productsMap.productMap());
-        System.out.println(productList);
+        System.out.print(productList);
     }
 
     public void printReceipt(final ReceiptDto receiptDto) {
+        System.out.println();
         System.out.println(RECEIPT_START.getMessage());
         System.out.println(RECEIPT_COL.getMessage());
         System.out.print(appendOrderList(receiptDto.getOrderItems()));
-        System.out.println(RECEIPT_PROMOTION.getMessage());
-        System.out.print(appendPromotionList(receiptDto.getFreeItems()));
+        printPromotionItems(receiptDto);
         System.out.println(RECEIPT_DIVIDER.getMessage());
-        System.out.printf(String.format(RECEIPT_TOTAL.getMessage() + "%n", receiptDto.getTotalQuantity(), receiptDto.getTotalPrice()));
-        System.out.printf(String.format(RECEIPT_PROMOTION_DISCOUNT.getMessage() + "%n", receiptDto.getPromotionDiscount()));
-        System.out.printf(String.format(RECEIPT_MEMBERSHIP_DISCOUNT.getMessage() + "%n", receiptDto.getMembershipDiscount()));
-        System.out.printf(String.format(RECEIPT_REAL_AMOUNT.getMessage() + "%n", receiptDto.getRealAmount()));
+        printMoneyPart(receiptDto);
     }
 
     private String appendProductSentence(final Map<String, List<ProductDto>> productsMap) {
@@ -98,6 +95,14 @@ public class OutputView {
         return String.format(RECEIPT_PRODUCT.getMessage() + "%n", orderItemDto.getName(), orderItemDto.getQuantity(), orderItemDto.getTotalPrice());
     }
 
+    private void printPromotionItems(final ReceiptDto receiptDto) {
+        if (receiptDto.isPromotionItemEmpty()) {
+            return;
+        }
+        System.out.println(RECEIPT_PROMOTION.getMessage());
+        System.out.print(appendPromotionList(receiptDto.getFreeItems()));
+    }
+
     private String appendPromotionList(final List<OrderItemDto> freeItems) {
         StringBuilder sb = new StringBuilder();
         freeItems.forEach(freeItem -> sb.append(formatPromotionProduct(freeItem)));
@@ -106,5 +111,12 @@ public class OutputView {
 
     private String formatPromotionProduct(final OrderItemDto orderItemDto) {
         return String.format(RECEIPT_PROMOTION_PRODUCT.getMessage() + "%n", orderItemDto.getName(), orderItemDto.getQuantity());
+    }
+
+    private void printMoneyPart(final ReceiptDto receiptDto) {
+        System.out.printf(String.format(RECEIPT_TOTAL.getMessage() + "%n", receiptDto.getTotalQuantity(), receiptDto.getTotalPrice()));
+        System.out.printf(String.format(RECEIPT_PROMOTION_DISCOUNT.getMessage() + "%n", receiptDto.getPromotionDiscount()));
+        System.out.printf(String.format(RECEIPT_MEMBERSHIP_DISCOUNT.getMessage() + "%n", receiptDto.getMembershipDiscount()));
+        System.out.printf(String.format(RECEIPT_REAL_AMOUNT.getMessage() + "%n", receiptDto.getRealAmount()));
     }
 }

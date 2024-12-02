@@ -34,6 +34,10 @@ public class ReceiptDto {
                 .sum();
     }
 
+    public boolean isPromotionItemEmpty() {
+        return freeItems.isEmpty();
+    }
+
     public int getRealAmount() {
         return totalPrice - promotionDiscount - membershipDiscount;
     }
