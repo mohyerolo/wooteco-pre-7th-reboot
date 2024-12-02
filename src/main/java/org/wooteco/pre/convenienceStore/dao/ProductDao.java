@@ -20,7 +20,7 @@ public class ProductDao {
     }
 
     public List<Product> findProducts(final String productName) {
-        return Collections.unmodifiableList(products.get(productName));
+        return products.get(productName);
     }
 
     public int findProductAllStock(final String productName) {

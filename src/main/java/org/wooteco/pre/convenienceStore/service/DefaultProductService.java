@@ -8,6 +8,7 @@ import org.wooteco.pre.convenienceStore.domain.promotion.Promotion;
 import org.wooteco.pre.convenienceStore.dto.ProductsDto;
 import org.wooteco.pre.convenienceStore.exception.CustomIllegalException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ public class DefaultProductService implements ProductService {
         if (products == null || products.isEmpty()) {
             throw new CustomIllegalException(NON_EXIST_PRODUCT);
         }
-        return products;
+        return Collections.unmodifiableList(products);
     }
 
     @Override
