@@ -18,6 +18,11 @@ public class NoPromotion extends Promotion {
     }
 
     @Override
+    public int calcPromotionStock(final int stock, final int order) {
+        return 0;
+    }
+
+    @Override
     public int calcPromotionFree(final int stock, final int order) {
         return 0;
     }
