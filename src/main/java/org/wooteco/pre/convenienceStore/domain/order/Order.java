@@ -3,6 +3,7 @@ package org.wooteco.pre.convenienceStore.domain.order;
 import org.wooteco.pre.convenienceStore.constants.Membership;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class Order {
     }
 
     public List<OrderItem> getOrderItems() {
-        return orderItems;
+        return Collections.unmodifiableList(orderItems);
     }
 
     public Membership getMembership() {

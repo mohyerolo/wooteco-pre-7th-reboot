@@ -1,27 +1,45 @@
 package org.wooteco.pre.convenienceStore.domain.order;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import org.wooteco.pre.convenienceStore.constants.Membership;
+
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Receipt {
-    private final Map<String, List<OrderItem>> orderItems;
+    private final Membership membership;
+    private final List<OrderItem> orderItems;
+    private final List<OrderItem> freeItems;
 
-    public Receipt(final Map<String, List<OrderItem>> orderItems) {
+    public Receipt(final Membership membership, final List<OrderItem> orderItems, final List<OrderItem> freeItems) {
+        this.membership = membership;
         this.orderItems = orderItems;
+        this.freeItems = freeItems;
     }
 
-    public static Receipt of(final List<OrderItem> orderItems, final List<OrderItem> freeItems) {
-        Map<String, List<OrderItem>> items = Stream.concat(orderItems.stream(), freeItems.stream())
-                .collect(Collectors.groupingBy(
-                        orderItem -> orderItem.getProduct().getName(),
-                        LinkedHashMap::new,
-                        Collectors.toList()
-                ));
-        return new Receipt(items);
+    public int getPromotionDiscount() {
+        return freeItems.stream()
+                .mapToInt(OrderItem::calcTotalPrice)
+                .sum();
     }
 
+    public int getMembershipDiscount() {
+        if (membership.equals(Membership.NONE)) {
+            return 0;
+        }
+        return membership.applyMembershipDiscount(calcRemainPrice());
+    }
+
+    private int calcRemainPrice() {
+        return orderItems.stream()
+                .mapToInt(OrderItem::calcNoPromotionPrice)
+                .sum();
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return Collections.unmodifiableList(orderItems);
+    }
+
+    public List<OrderItem> getFreeItems() {
+        return Collections.unmodifiableList(freeItems);
+    }
 }

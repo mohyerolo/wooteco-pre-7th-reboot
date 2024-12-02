@@ -54,6 +54,14 @@ public class OrderItem {
         return product.calcAddableQuantity(quantity);
     }
 
+    public int calcTotalPrice() {
+        return quantity * product.getPrice();
+    }
+
+    public int calcNoPromotionPrice() {
+        return getRemainQuantity() * product.getPrice();
+    }
+
     public boolean exist() {
         return quantity != 0;
     }
