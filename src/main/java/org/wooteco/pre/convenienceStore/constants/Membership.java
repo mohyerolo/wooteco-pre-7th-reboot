@@ -13,7 +13,7 @@ public enum Membership {
     }
 
     public int applyMembershipDiscount(final int price) {
-        int discount = discountRate * price;
+        int discount = (int) ((discountRate / 100.0) * price);
         return Math.min(discount, MAX_DISCOUNT);
     }
 }

@@ -11,12 +11,14 @@ public class ReceiptDto {
     private final List<OrderItemDto> freeItems;
     private final int promotionDiscount;
     private final int membershipDiscount;
+    private final int totalPrice;
 
-    public ReceiptDto(final List<OrderItemDto> orderItems, final List<OrderItemDto> freeItems, final int promotionDiscount, final int membershipDiscount) {
+    private ReceiptDto(final List<OrderItemDto> orderItems, final List<OrderItemDto> freeItems, final int promotionDiscount, final int membershipDiscount) {
         this.orderItems = orderItems;
         this.freeItems = freeItems;
         this.promotionDiscount = promotionDiscount;
         this.membershipDiscount = membershipDiscount;
+        this.totalPrice = calcTotalPrice();
     }
 
     public static ReceiptDto from(final Receipt receipt) {
@@ -32,10 +34,8 @@ public class ReceiptDto {
                 .sum();
     }
 
-    public int getTotalPrice() {
-        return orderItems.stream()
-                .mapToInt(OrderItemDto::getTotalPrice)
-                .sum();
+    public int getRealAmount() {
+        return totalPrice - promotionDiscount - membershipDiscount;
     }
 
     public List<OrderItemDto> getOrderItems() {
@@ -54,4 +54,13 @@ public class ReceiptDto {
         return membershipDiscount;
     }
 
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    private int calcTotalPrice() {
+        return orderItems.stream()
+                .mapToInt(OrderItemDto::getTotalPrice)
+                .sum();
+    }
 }

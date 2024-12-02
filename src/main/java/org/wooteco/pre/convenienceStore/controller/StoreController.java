@@ -5,6 +5,7 @@ import org.wooteco.pre.convenienceStore.constants.Membership;
 import org.wooteco.pre.convenienceStore.domain.order.Order;
 import org.wooteco.pre.convenienceStore.domain.order.Receipt;
 import org.wooteco.pre.convenienceStore.domain.order.UpdateOrderItem;
+import org.wooteco.pre.convenienceStore.dto.ReceiptDto;
 import org.wooteco.pre.convenienceStore.dto.UpdateDto;
 import org.wooteco.pre.convenienceStore.service.OrderService;
 import org.wooteco.pre.convenienceStore.service.ProductService;
@@ -37,8 +38,7 @@ public class StoreController {
             printStore();
             Order order = takeOrder();
             if (order.isStillExist()) {
-                applyMembership(order);
-                Receipt receipt = orderService.divideItems(order);
+                printReceipt(order);
             }
         } while (askRestart());
     }
@@ -53,6 +53,12 @@ public class StoreController {
         List<UpdateOrderItem> itemNeedUpdate = orderService.getItemNeedUpdate(order);
         updateOrder(itemNeedUpdate);
         return order;
+    }
+
+    private void printReceipt(final Order order) {
+        applyMembership(order);
+        Receipt receipt = orderService.divideItems(order);
+        outputView.printReceipt(ReceiptDto.from(receipt));
     }
 
     private Order askOrder() {
