@@ -6,7 +6,7 @@ import org.wooteco.pre.convenienceStore.util.InputParser;
 public class Product {
     private final String name;
     private final int price;
-    private final int stock;
+    private int stock;
     private final Promotion promotion;
 
     private Product(final String name, final int price, final int stock, final Promotion promotion) {
@@ -45,6 +45,16 @@ public class Product {
 
     public int calcAddableQuantity(final int quantity) {
         return promotion.calcAddableQuantity(quantity);
+    }
+
+    public int decreaseStock(final int quantity) {
+        int decreaseQuantity = Math.min(stock, quantity);
+        stock -= decreaseQuantity;
+        return quantity - decreaseQuantity;
+    }
+
+    public boolean isStockOut() {
+        return stock == 0;
     }
 
     public String getName() {

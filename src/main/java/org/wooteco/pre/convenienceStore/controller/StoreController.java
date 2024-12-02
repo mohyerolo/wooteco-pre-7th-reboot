@@ -37,9 +37,7 @@ public class StoreController {
         do {
             printStore();
             Order order = takeOrder();
-            if (order.isStillExist()) {
-                printReceipt(order);
-            }
+            payIfExists(order);
         } while (askRestart());
     }
 
@@ -55,10 +53,11 @@ public class StoreController {
         return order;
     }
 
-    private void printReceipt(final Order order) {
-        applyMembership(order);
-        Receipt receipt = orderService.divideItems(order);
-        outputView.printReceipt(ReceiptDto.from(receipt));
+    private void payIfExists(final Order order) {
+        if (order.isStillExist()) {
+            printReceipt(order);
+            productService.reduceStock(order.getOrderItems());
+        }
     }
 
     private Order askOrder() {
@@ -103,6 +102,12 @@ public class StoreController {
             InputValidator.validateAnswer(answer);
             return answer.equals(ANSWER_Y);
         });
+    }
+
+    private void printReceipt(final Order order) {
+        applyMembership(order);
+        Receipt receipt = orderService.divideItems(order);
+        outputView.printReceipt(ReceiptDto.from(receipt));
     }
 
     private void applyMembership(final Order order) {

@@ -20,10 +20,10 @@ public class ProductDao {
     }
 
     public List<Product> findProducts(final String productName) {
-        return this.products.get(productName);
+        return Collections.unmodifiableList(products.get(productName));
     }
 
     public int findProductAllStock(final String productName) {
-        return this.products.get(productName).stream().mapToInt(Product::getStock).sum();
+        return products.get(productName).stream().mapToInt(Product::getStock).sum();
     }
 }

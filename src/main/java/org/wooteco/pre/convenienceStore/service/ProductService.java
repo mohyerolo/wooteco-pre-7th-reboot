@@ -1,5 +1,6 @@
 package org.wooteco.pre.convenienceStore.service;
 
+import org.wooteco.pre.convenienceStore.domain.order.OrderItem;
 import org.wooteco.pre.convenienceStore.domain.product.Product;
 import org.wooteco.pre.convenienceStore.domain.promotion.Promotion;
 import org.wooteco.pre.convenienceStore.dto.ProductsDto;
@@ -18,4 +19,6 @@ public interface ProductService {
     int sumProductAllStock(final Product product);
 
     int getPromotionFreeQuantity(final String productName, final int quantity);
+
+    void reduceStock(final List<OrderItem> orderItems);
 }

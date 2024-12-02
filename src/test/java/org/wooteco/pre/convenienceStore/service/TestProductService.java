@@ -1,5 +1,6 @@
 package org.wooteco.pre.convenienceStore.service;
 
+import org.wooteco.pre.convenienceStore.domain.order.OrderItem;
 import org.wooteco.pre.convenienceStore.domain.product.Product;
 import org.wooteco.pre.convenienceStore.domain.promotion.NoPromotion;
 import org.wooteco.pre.convenienceStore.domain.promotion.Promotion;
@@ -64,5 +65,10 @@ public class TestProductService implements ProductService {
     public int getPromotionFreeQuantity(final String productName, final int quantity) {
         Product product = selectHighPriorityProduct(productName);
         return product.calcPromotionFreeQuantity(quantity);
+    }
+
+    @Override
+    public void reduceStock(final List<OrderItem> orderItems) {
+
     }
 }
