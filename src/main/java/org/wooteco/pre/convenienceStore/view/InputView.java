@@ -22,18 +22,20 @@ public class InputView {
     }
 
     public String readFreeTake(final UpdateDto dto) {
-        System.out.printf(String.format(INPUT_FREE.getMessage(), dto.getProductName(), dto.getQuantity()) + "%n");
+        System.out.printf(String.format(INPUT_FREE.getMessage() + "%n", dto.getProductName(), dto.getQuantity()));
         return readInput();
     }
 
     public String readNoPromotionOK(final UpdateDto dto) {
-        System.out.printf(String.format(INPUT_NO_PROMOTION.getMessage(), dto.getProductName(), dto.getQuantity()) + "%n");
+        System.out.printf(String.format(INPUT_NO_PROMOTION.getMessage() + "%n", dto.getProductName(), dto.getQuantity()));
         return readInput();
     }
 
     public String readRestart() {
         System.out.println(INPUT_RESTART.getMessage());
-        return readInput();
+        String input = readInput();
+        System.out.println();
+        return input;
     }
 
     public String readMembership() {
